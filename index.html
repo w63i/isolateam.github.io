@@ -6,7 +6,7 @@
 <title>b4ch.wtf</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
 <link href="https://db.onlinewebfonts.com/c/7cc6719bd5f0310be3150ba33418e72e?family=Comic+Sans+MS" rel="stylesheet">
 <style>
@@ -18,7 +18,7 @@
     --accent: #00e1ff;
     --mint: #a6f5d0;
     --grad: linear-gradient(90deg, var(--mint), var(--accent));
-    --border: rgba(83, 235, 230, 0.18);
+    --border: rgba(83, 235, 187, 0.18);
   }
 
   @font-face {
@@ -128,7 +128,7 @@
     grid-template-columns: repeat(6, 1fr);
     grid-template-areas:
       "hero  hero  hero  clock clock clock"
-      "hero  hero  hero  clock clock clock"
+      "hero  hero  hero  me    me    me"
       "short short short short wiki  wiki"
       "obs   obs   ufs   ufs   wiki  wiki"
       "bloxi bloxi bloxi badge badge badge";
@@ -137,8 +137,165 @@
 
   .hero  { grid-area: hero; }
   .clock-box { grid-area: clock; }
+  .about-me { grid-area: me; }
+
+  .about-me p {
+    font-family: 'OpenDyslexic', sans-serif;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  .about-me p + p { margin-top: 8px; }
   .links { grid-area: links; }
   .p-short { grid-area: short; }
+  .hero { position: relative; z-index: 5; }
+
+  .spotify {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 330px;
+    margin: 14px auto 0;
+    padding: 10px;
+    text-align: left;
+    font-family: 'Manrope', sans-serif;
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: border-color 0.15s ease;
+  }
+
+  .spotify[href]:hover { border-color: #5fe8e0; }
+
+  .sp-art {
+    width: 56px;
+    height: 56px;
+    border-radius: 4px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: var(--surface);
+  }
+
+  .sp-info { min-width: 0; flex: 1; }
+
+  .sp-label {
+    font-size: 10px;
+    color: #1db954;
+    letter-spacing: 0.5px;
+  }
+
+  .sp-song,
+  .sp-artist {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sp-song { font-size: 13px; font-weight: 700; margin-top: 1px; }
+
+  .sp-artist { font-size: 11px; color: var(--muted); }
+
+  .sp-bar {
+    height: 3px;
+    margin-top: 6px;
+    background: rgba(130, 240, 225, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .sp-bar span {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--grad);
+  }
+
+  .sp-time {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3px;
+    font-size: 9.5px;
+    color: var(--muted);
+  }
+
+  .spotify.idle .sp-art,
+  .spotify.idle .sp-song,
+  .spotify.idle .sp-artist,
+  .spotify.idle .sp-bar,
+  .spotify.idle .sp-time { display: none; }
+
+  .spotify.idle .sp-label { color: var(--muted); font-size: 11px; }
+
+  .more {
+    position: relative;
+    margin-top: 10px;
+  }
+
+  .more summary {
+    list-style: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 20px;
+    color: var(--mint);
+    border-radius: 3px;
+    transition: background 0.15s ease;
+  }
+
+  .more summary::-webkit-details-marker { display: none; }
+
+  .more summary:hover { background: rgba(130, 240, 225, 0.08); }
+
+  .more summary svg { transition: transform 0.2s ease; }
+
+  .more[open] summary svg { transform: rotate(180deg); }
+
+  .more-links {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    width: max-content;
+    max-width: min(420px, 90vw);
+    padding: 12px;
+    background: rgba(18, 21, 24, 0.97);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
+    animation: drop 0.15s ease-out;
+  }
+
+  @keyframes drop {
+    from { opacity: 0; transform: translate(-50%, -4px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+  }
+
+  .more-links a {
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 3px;
+    color: var(--mint);
+    border: 1px solid transparent;
+    background:
+      linear-gradient(var(--surface), var(--surface)) padding-box,
+      var(--grad) border-box;
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+
+  .more-links a:hover {
+    color: var(--bg);
+    background: var(--grad) border-box;
+  }
   .p-wiki  { grid-area: wiki; }
   .p-obs   { grid-area: obs; }
   .p-ufs   { grid-area: ufs; }
@@ -207,7 +364,7 @@
   .clock-time {
     font-family: 'DSEG7', "Azeret Mono", monospace;
     font-weight: 700;
-    font-size: clamp(38px, 6.5vw, 58px);
+    font-size: clamp(30px, 5vw, 44px);
     line-height: 1;
     letter-spacing: 2px;
     color: var(--text);
@@ -226,7 +383,7 @@
   }
 
   .clock-time .ampm {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Comic Sans MS', sans-serif;
     font-size: 0.22em;
     color: var(--muted);
     letter-spacing: 1px;
@@ -235,7 +392,7 @@
 
   .clock-date {
     margin-top: 12px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Comic Sans MS', sans-serif;
     font-size: 13px;
     color: var(--muted);
     text-transform: lowercase;
@@ -263,7 +420,7 @@
     display: flex;
     justify-content: space-between;
     margin-top: 6px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Comic Sans MS', sans-serif;
     font-size: 10.5px;
     color: var(--muted);
   }
@@ -313,8 +470,8 @@
   }
 
   .project h2 {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 17px;
+    font-family: 'Comic Sans MS', sans-serif;
+    font-size: 24px;
     font-weight: 700;
     line-height: 1.25;
     margin-bottom: 6px;
@@ -341,7 +498,7 @@
   }
 
   .tag {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Comic Sans MS', sans-serif;
     font-size: 10.5px;
     color: var(--accent);
     border: 1px solid var(--border);
@@ -367,6 +524,7 @@
       grid-template-areas:
         "hero  hero"
         "clock clock"
+        "me    me"
         "short short"
         "wiki  wiki"
         "obs   ufs"
@@ -378,7 +536,7 @@
   @media (max-width: 460px) {
     .grid {
       grid-template-columns: 1fr;
-      grid-template-areas: "hero" "clock" "short" "wiki" "obs" "ufs" "bloxi" "badge";
+      grid-template-areas: "hero" "clock" "me" "short" "wiki" "obs" "ufs" "bloxi" "badge";
     }
   }
 
@@ -421,6 +579,40 @@
     0%, 92%, 94%, 100% { opacity: 1; }
     93% { opacity: 0.4; }
   }
+
+  .shields {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .shield {
+    display: inline-flex;
+    height: 20px;
+    border-radius: 3px;
+    overflow: hidden;
+    font-family: Verdana, 'DejaVu Sans', Geneva, sans-serif;
+    font-size: 11px;
+    line-height: 20px;
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(1, 1, 1, 0.3);
+    background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1));
+    white-space: nowrap;
+  }
+
+  .shield .k,
+  .shield .v {
+    padding: 0 6px;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.08));
+  }
+
+  .shield .k { background-color: #555; }
+  .shield .v { background-color: #007ec6; }
+  .shield .v.good { background-color: #4c1; }
+  .shield .v.bad { background-color: #e05d44; }
+  .shield .v.please { background-color: var(--grad); }
 
   .meta-row {
     display: flex;
@@ -576,7 +768,7 @@
   <div class="nav-container">
     <a href="/" class="nav-logo">b4ch<span class="glyph">.wtf</span></a>
     <div class="nav-links">
-      <a href="about.html" class="nav-item">about</a>
+      <a href="/" class="nav-item">hello</a>
     </div>
   </div>
 </nav>
@@ -585,16 +777,49 @@
   <div id="profile" class="grid">
 
     <section class="box hero">
-      <h1 class="handle">#bach<span class="brown"> 0 </span><span class="glyph">wtf+</span></h1>
+      <div class="shields">
+        <span class="shield"><span class="k">status</span><span class="v" id="discord-status">offline</span></span>
+        <span class="shield"><span class="k">for hire</span><span class="v">please</span></span>
+        <span class="shield"><span class="k">projects</span><span class="v" id="project-count"></span></span>
+      </div>
+      <h1 class="handle">#bach*<span class="glyph">wtf+</span></h1>
       <div class="meta-row">
-        <span id="uptime">67 legend</span>
+        <span id="uptime"><span><a href="https://github.com/w63i/" target="_blank" rel="noopener noreferrer">github: w63i</a></span></span>
         <span id="tiktok"><span>tiktok: @b4chadoo</span></span>
       <span id="discord"><span>discord: bachadoo</span></span>
+
       </div>
+      <details class="more">
+        <summary aria-label="more links"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="more-links">
+          <a href="https://www.youtube.com/@bachadooyt" target="_blank" rel="noopener">youtube</a>
+          <a href="https://www.roblox.com/users/1868049331/profile" target="_blank" rel="noopener">roblox</a>
+          <a href="https://open.spotify.com/user/31rhxbbzy3s33nhwucdwjzckqsmy?si=4fb0455e762047b6" target="_blank" rel="noopener">spotify</a>
+          <a href="https://steamcommunity.com/id/mageezy/" target="_blank" rel="noopener">steam</a>
+          <a href="mailto:bachmcg@gmail.com" target="_blank" rel="noopener">email</a>
+        </div>
+      </details>
+      <a class="spotify idle" id="spotify" target="_blank" rel="noopener">
+        <img class="sp-art" id="sp-art" alt="">
+        <div class="sp-info">
+          <div class="sp-label" id="sp-label">not listening to anything</div>
+          <div class="sp-song" id="sp-song"></div>
+          <div class="sp-artist" id="sp-artist"></div>
+          <div class="sp-bar"><span id="sp-bar"></span></div>
+          <div class="sp-time"><span id="sp-cur"></span><span id="sp-len"></span></div>
+        </div>
+      </a>
+    </section>
+
+    <section class="box about-me">
+      <p>i'm bach im a 16 year old developer and high school student from louisiana</p>
+      <p>i like to play video games like geometry dash and osu</p>
+      <p>outside of my computer i collect records and hang out with friends</p>
+      <p>below are a few of my projects that ive been working on for a little while, excluding breakium since i stopped working on that some time ago</p>    
     </section>
 
     <section class="box clock-box">
-      <div class="box-label">local time</div>
+            <div class="box-label">adding this so it doesnt look blank</div>
       <div class="clock-face">
         <div class="clock-time" id="clock-time">--<span class="colon">:</span>--<span class="sec">--</span><span class="ampm">--</span></div>
         <div class="clock-date" id="clock-date">&nbsp;</div>
@@ -604,34 +829,28 @@
     </section>
 
     <article class="box project p-short">
-      <div class="box-label">website</div>
-      <h2><a class="card-link" href="https://shortsmith.space" target="_blank" rel="noopener">shortsmith<span class="glyph">.space</span></a></h2>
+      <h2><a class="card-link" href="https://shortsmith.space" target="_blank" rel="noopener"><span class="glyph">shortsmith</span>.space</a></h2>
       <p>shortsmith is a free or paid tool to generate short-form 9:16 videos using clips and snippets from long-form youtube videos to post online.</p>
       <p>currently working on integrating with more video platforms and an auto-generating & posting feature.</p>
     </article>
 
     <article class="box project p-wiki">
-      <div class="box-label">website</div>
-      <h2><a class="card-link" href="https://wikisprint.online" target="_blank" rel="noopener">wikisprint<span class="glyph">.online</span></a></h2>
+      <h2><a class="card-link" href="https://wikisprint.online" target="_blank" rel="noopener"><span class="glyph">wikisprint</span>.online</a></h2>
       <p>little daily game i thought of in class. wikipedia racing is a popular pastime at my school so i ended up creating a website for it with additional features like a party system and elo calculation, etc.</p>
       <p>a random starting and destination article are generated each day and you can try and become the fastest to get there</p>
     </article>
 
     <article class="box project p-obs">
-      <div class="box-label">website</div>
       <h2><a class="card-link" href="https://obscura-2o7r.onrender.com/">obscura</a></h2>
       <p>a multiplayer word-bomb game where rarer words score more.</p>
-      <div class="tags"><a class="tag tag-link" href="https://github.com/isolateam/obscura" target="_blank" rel="noopener noreferrer">source ↗</a></div>
     </article>
 
     <article class="box project p-ufs">
-      <div class="box-label">roblox</div>
       <h2><a class="card-link" href="https://www.roblox.com/games/137419962843528/Unethical-Four-Square">unethical four square</a></h2>
       <p>this is the first roblox four square game to my knowledge, power ups and custom squares, updated frequently</p>
     </article>
 
     <article class="box project p-bloxi">
-      <div class="box-label">roblox</div>
       <h2><a class="card-link" href="https://www.roblox.com/games/112289656379031/BloxiClone">bloxiclone</a></h2>
       <p>roblox gymnastics bar swinging game, inspired by the mobile game NoomiClone</p>
     </article>
@@ -656,6 +875,20 @@
 </div>
 
 <script>
+document.addEventListener('click', e => {
+  document.querySelectorAll('details.more[open]').forEach(d => {
+    if (!d.contains(e.target)) d.removeAttribute('open');
+  });
+});
+
+document.querySelectorAll('.shield .v').forEach(v => {
+  const t = v.textContent.trim().toLowerCase();
+  if (t === 'online' || t === 'yes') v.classList.add('good');
+  if (t === 'offline' || t === 'no') v.classList.add('bad');
+  if (t === 'please') v.classList.add('please');
+});
+document.getElementById('project-count').textContent = document.querySelectorAll('.project').length;
+
 (function () {
   const timeEl = document.getElementById('clock-time');
   const dateEl = document.getElementById('clock-date');
@@ -683,7 +916,70 @@
   tick();
   setInterval(tick, 1000);
 })();
+(function () {
+  const ID = '723661344360104046';
+  const el = document.getElementById('discord-status');
+  const colors = { online: '#4c1', idle: '#dfb317', dnd: '#e05d44', offline: '#e05d44' };
+  const sp = {
+    card: document.getElementById('spotify'),
+    art: document.getElementById('sp-art'),
+    label: document.getElementById('sp-label'),
+    song: document.getElementById('sp-song'),
+    artist: document.getElementById('sp-artist'),
+    bar: document.getElementById('sp-bar'),
+    cur: document.getElementById('sp-cur'),
+    len: document.getElementById('sp-len')
+  };
+  let track = null;
+  const mmss = ms => {
+    const t = Math.max(0, Math.floor(ms / 1000));
+    return Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0');
+  };
+
+  function showSpotify(data) {
+    track = data.listening_to_spotify && data.spotify ? data.spotify : null;
+    if (!track) {
+      sp.card.classList.add('idle');
+      sp.card.removeAttribute('href');
+      sp.label.textContent = 'not listening to anything';
+      return;
+    }
+    sp.card.classList.remove('idle');
+    sp.label.textContent = 'listening on spotify';
+    sp.song.textContent = track.song;
+    sp.artist.textContent = track.artist.replace(/;/g, ',');
+    if (sp.art.src !== track.album_art_url) sp.art.src = track.album_art_url;
+    sp.art.alt = track.album;
+    if (track.track_id) sp.card.href = 'https://open.spotify.com/track/' + track.track_id;
+    progress();
+  }
+
+  function progress() {
+    if (!track || !track.timestamps) return;
+    const { start, end } = track.timestamps;
+    const len = end - start;
+    const cur = Math.min(len, Date.now() - start);
+    sp.bar.style.width = (cur / len * 100).toFixed(2) + '%';
+    sp.cur.textContent = mmss(cur);
+    sp.len.textContent = mmss(len);
+  }
+  setInterval(progress, 1000);
+
+  async function update() {
+    try {
+      const res = await fetch(`https://api.lanyard.rest/v1/users/${ID}`);
+      const { data } = await res.json();
+      const s = data.discord_status;
+      el.textContent = s;
+      el.style.backgroundColor = colors[s] || '#9f9f9f';
+      showSpotify(data);
+    } catch (e) {}
+  }
+  update();
+  setInterval(update, 10000);
+})();
 </script>
+
 <script src="water.js"></script>
 
 </body>
