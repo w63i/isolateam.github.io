@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
 <link href="https://db.onlinewebfonts.com/c/7cc6719bd5f0310be3150ba33418e72e?family=Comic+Sans+MS" rel="stylesheet">
 <style>
@@ -17,7 +16,9 @@
     --text: #eae5dc;
     --muted: #75828a;
     --accent: #00e1ff;
-    --border: rgba(0, 174, 255, 0.18);
+    --mint: #a6f5d0;
+    --grad: linear-gradient(90deg, var(--mint), var(--accent));
+    --border: rgba(83, 235, 230, 0.18);
   }
 
   @font-face {
@@ -53,21 +54,6 @@
     inset: 0;
     z-index: -2;
     display: block;
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background: repeating-linear-gradient(
-      to bottom,
-      rgba(0, 225, 255, 0.025) 0px,
-      rgba(0, 225, 255, 0.025) 1px,
-      transparent 1px,
-      transparent 3px
-    );
-    pointer-events: none;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -128,8 +114,6 @@
     border-color: var(--accent);
   }
 
-  /* ---------- bento layout ---------- */
-
   .terminal {
     width: 100%;
     max-width: 920px;
@@ -171,7 +155,7 @@
   }
 
   .box-label {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: sans-serif;
     font-size: 11px;
     color: var(--muted);
     text-transform: lowercase;
@@ -192,15 +176,11 @@
     justify-content: center;
   }
 
-  .hero .handle { font-size: clamp(48px, 9vw, 80px); }
-
-  /* ---------- clock ---------- */
+  .hero .handle { font-size: clamp(56px, 11vw, 96px); }
 
   .clock-box {
     display: flex;
     flex-direction: column;
-    position: relative;
-    overflow: hidden;
   }
 
   .clock-face {
@@ -208,6 +188,13 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+
+  @font-face {
+    font-family: 'OpenDyslexic';
+    src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/woff/OpenDyslexic-Regular.woff') format('woff');
+    font-weight: 400;
+    font-display: swap;
   }
 
   @font-face {
@@ -291,8 +278,6 @@
 
   .links .box-label { width: 100%; margin-bottom: 2px; }
 
-  /* project cards */
-
   .project {
     display: flex;
     flex-direction: column;
@@ -309,7 +294,6 @@
 
   .card-link { color: inherit; }
 
-  /* makes the whole card clickable via the title link */
   .card-link::after {
     content: '';
     position: absolute;
@@ -339,7 +323,9 @@
   .project h2 .glyph { color: var(--accent); }
 
   .project p {
-    font-size: 13.5px;
+    font-family: 'OpenDyslexic', sans-serif;
+    font-size: 12.5px;
+    line-height: 1.55;
     color: var(--muted);
   }
 
@@ -406,16 +392,25 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
+  @font-face {
+    font-family: 'Merry Christmas';
+    src: url('fonts/MerryChristmasFlake.ttf') format('truetype');
+    font-display: swap;
+  }
+
   .handle {
-    font-family: 'Comic Sans MS', 'Comic Sans', cursive;
-    font-weight: 800;
+    font-family: 'Merry Christmas', 'Comic Sans MS', cursive;
+    font-weight: 400;
+    padding: 6px 0 10px;
     font-size: clamp(52px, 12vw, 96px);
-    line-height: 0.95;
+    line-height: 1.1;
     color: var(--text);
-    letter-spacing: -2px;
+    letter-spacing: 0;
     text-align: center;
     text-shadow: 0 0 24px rgba(8, 8, 8, 0.25);
   }
+
+  .handle .brown { color: #a0632f; font-size: 0.4em; }
 
   .handle .glyph {
     color: var(--accent);
@@ -534,6 +529,43 @@
     display: block;
     image-rendering: pixelated;
   }
+  .nav-logo .glyph,
+  .box-label::before,
+  .clock-time .colon,
+  .clock-time .sec,
+  .project h2 .glyph,
+  .handle .glyph,
+  footer a {
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: none;
+  }
+
+  #uptime,
+  .tag {
+    color: var(--mint);
+    border: 1px solid transparent;
+    background:
+      linear-gradient(var(--surface), var(--surface)) padding-box,
+      var(--grad) border-box;
+  }
+
+  .tag-link:hover {
+    color: var(--bg);
+    background: var(--grad) border-box;
+  }
+
+  .clock-bar span {
+    background: var(--grad);
+    box-shadow: 0 0 10px rgba(130, 240, 225, 0.6);
+  }
+
+  .clock-bar { background: rgba(130, 240, 225, 0.1); }
+
+  .nav-item:hover,
+  .project:hover { border-color: #5fe8e0; }
 </style>
 </head>
 <body>
@@ -553,7 +585,7 @@
   <div id="profile" class="grid">
 
     <section class="box hero">
-      <h1 class="handle">bach<span class="glyph">.wtf</span></h1>
+      <h1 class="handle">#bach<span class="brown"> 0 </span><span class="glyph">wtf+</span></h1>
       <div class="meta-row">
         <span id="uptime">67 legend</span>
         <span id="tiktok"><span>tiktok: @b4chadoo</span></span>
@@ -652,7 +684,7 @@
   setInterval(tick, 1000);
 })();
 </script>
-<script src="visuals.js"></script>
+<script src="water.js"></script>
 
 </body>
 </html>
