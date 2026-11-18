@@ -333,7 +333,25 @@
     justify-content: center;
   }
 
-  .hero .handle { font-size: clamp(56px, 11vw, 96px); }
+  .hero .handle { font-size: clamp(36px, 11vw, 96px); }
+
+  .hero-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .pfp {
+    width: clamp(44px, 7vw, 68px);
+    height: clamp(44px, 7vw, 68px);
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 2px solid #e05d44;
+    box-shadow: 0 0 0 3px var(--surface);
+    transition: border-color 0.3s ease;
+  }
 
   .clock-box {
     display: flex;
@@ -782,7 +800,10 @@
         <span class="shield"><span class="k">for hire</span><span class="v">please</span></span>
         <span class="shield"><span class="k">projects</span><span class="v" id="project-count"></span></span>
       </div>
-      <h1 class="handle">#bach*<span class="glyph">wtf+</span></h1>
+      <div class="hero-title">
+        <img class="pfp" id="pfp" src="https://cdn.discordapp.com/avatars/723661344360104046/21c0a827f651982c93398dcc6996ab83.png?size=256" alt="bach's discord avatar">
+        <h1 class="handle">#bach*<span class="glyph">wtf+</span></h1>
+      </div>
       <div class="meta-row">
         <span id="uptime"><span><a href="https://github.com/w63i/" target="_blank" rel="noopener noreferrer">github: w63i</a></span></span>
         <span id="tiktok"><span>tiktok: @b4chadoo</span></span>
@@ -973,6 +994,14 @@ document.getElementById('project-count').textContent = document.querySelectorAll
       el.textContent = s;
       el.style.backgroundColor = colors[s] || '#9f9f9f';
       showSpotify(data);
+      const u = data.discord_user;
+      if (u && u.avatar) {
+        const ext = u.avatar.startsWith('a_') ? 'gif' : 'png';
+        const url = `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.${ext}?size=256`;
+        const pfp = document.getElementById('pfp');
+        if (pfp.src !== url) pfp.src = url;
+        pfp.style.borderColor = colors[s] || '#9f9f9f';
+      }
     } catch (e) {}
   }
   update();
