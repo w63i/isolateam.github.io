@@ -30,10 +30,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px 20px;
+    padding: 88px 16px 40px;
     line-height: 1.6;
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
   }
 
   #bg-grid {
@@ -80,7 +80,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 620px;
+    max-width: 920px;
     margin: 0 auto;
     font-family: 'JetBrains Mono', monospace;
   }
@@ -118,12 +118,270 @@
     border-color: var(--accent);
   }
 
+  /* ---------- bento layout ---------- */
+
   .terminal {
     width: 100%;
-    max-width: 620px;
+    max-width: 920px;
     position: relative;
-    left:5%;
     z-index: 1;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-areas:
+      "hero  hero  hero  clock clock clock"
+      "hero  hero  hero  clock clock clock"
+      "short short short short wiki  wiki"
+      "obs   obs   ufs   ufs   wiki  wiki"
+      "bloxi bloxi bloxi badge badge badge";
+    gap: 12px;
+  }
+
+  .hero  { grid-area: hero; }
+  .clock-box { grid-area: clock; }
+  .links { grid-area: links; }
+  .p-short { grid-area: short; }
+  .p-wiki  { grid-area: wiki; }
+  .p-obs   { grid-area: obs; }
+  .p-ufs   { grid-area: ufs; }
+  .p-bloxi { grid-area: bloxi; }
+  .badges  { grid-area: badge; }
+
+  .box {
+    background: rgba(18, 21, 24, 0.85);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 18px;
+    backdrop-filter: blur(4px);
+    min-width: 0;
+  }
+
+  .box-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: lowercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+  }
+
+  .box-label::before {
+    content: '// ';
+    color: var(--accent);
+    opacity: 0.7;
+  }
+
+  .hero {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hero .handle { font-size: clamp(48px, 9vw, 80px); }
+
+  /* ---------- clock ---------- */
+
+  .clock-box {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .clock-face {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  @font-face {
+    font-family: 'DSEG7';
+    src: url('https://cdn.jsdelivr.net/npm/dseg@0.46.0/fonts/DSEG7-Classic/DSEG7Classic-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-display: swap;
+  }
+
+  .clock-time {
+    font-family: 'DSEG7', "Azeret Mono", monospace;
+    font-weight: 700;
+    font-size: clamp(38px, 6.5vw, 58px);
+    line-height: 1;
+    letter-spacing: 2px;
+    color: var(--text);
+    text-shadow: 0 0 24px rgba(0, 225, 255, 0.25);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .clock-time .colon { color: var(--accent); }
+
+  .clock-time .sec {
+    font-size: 0.45em;
+    color: var(--accent);
+    letter-spacing: 0;
+    margin-left: 8px;
+  }
+
+  .clock-time .ampm {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.22em;
+    color: var(--muted);
+    letter-spacing: 1px;
+    margin-left: 4px;
+  }
+
+  .clock-date {
+    margin-top: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+    text-transform: lowercase;
+  }
+
+  .clock-date b { color: var(--text); font-weight: 500; }
+
+  .clock-bar {
+    margin-top: 16px;
+    height: 3px;
+    background: rgba(0, 225, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .clock-bar span {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+  }
+
+  .clock-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--muted);
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+    gap: 8px;
+  }
+
+  .links .box-label { width: 100%; margin-bottom: 2px; }
+
+  /* project cards */
+
+  .project {
+    display: flex;
+    flex-direction: column;
+    color: var(--text);
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+
+  .project { position: relative; }
+
+  .project:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .card-link { color: inherit; }
+
+  /* makes the whole card clickable via the title link */
+  .card-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  .tag-link {
+    position: relative;
+    z-index: 2;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .tag-link:hover {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  .project h2 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 6px;
+  }
+
+  .project h2 .glyph { color: var(--accent); }
+
+  .project p {
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+
+  .project p + p { margin-top: 8px; }
+
+  .project .tags { margin-top: auto; padding-top: 12px; }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--accent);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1px 7px;
+  }
+
+  .tag.roblox { color: #ff6b6b; border-color: rgba(255, 107, 107, 0.3); }
+
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    gap: 8px;
+  }
+
+  .badges .box-label { width: 100%; margin-bottom: 2px; }
+
+  @media (max-width: 720px) {
+    .grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+        "hero  hero"
+        "clock clock"
+        "short short"
+        "wiki  wiki"
+        "obs   ufs"
+        "bloxi bloxi"
+        "badge badge";
+    }
+  }
+
+  @media (max-width: 460px) {
+    .grid {
+      grid-template-columns: 1fr;
+      grid-template-areas: "hero" "clock" "short" "wiki" "obs" "ufs" "bloxi" "badge";
+    }
   }
 
   #profile {
@@ -229,29 +487,9 @@
     color: var(--muted);
   }
 
-  /*  badge rails  */
-
-  .badge-rail {
-    position: fixed;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    z-index: 1;
-  }
-
-  .badge-rail-left { left: 240px; }
-  .badge-rail-right { right: 240px; }
-
   .badge {
     display: block;
     image-rendering: pixelated;
-  }
-
-  @media (max-width: 900px) {
-    .badge-rail { display: none; }
   }
 </style>
 </head>
@@ -268,38 +506,109 @@
   </div>
 </nav>
 
-<div class="badge-rail badge-rail-left">
-  <iframe src="//incr.easrng.net/badge?key=b4chwtf" style="background: url(//incr.easrng.net/bg.gif)" title="increment badge" width="88" height="31" frameborder="0"></iframe>
-  <img src="gifs/bestviewedcomp.gif" class="badge">
-  <img src="gifs/jonezua.gif" class="badge">
-  <img src="gifs/smile.gif" class="badge">
-  <img src="gifs/spotify.gif" class="badge">
-  <img src="gifs/spacelink.gif" class="badge">
-</div>
-
 <div class="terminal">
-  <div id="profile">
-<iframe src="https://free.timeanddate.com/clock/ial3gbou/n32/fn7/fs18/fc00e1ff/tct/pct/ftb/bls0/brs0/bts0/bbs0/tt0" frameborder="0" width="447" height="27" allowtransparency="true"></iframe>
+  <div id="profile" class="grid">
 
-    <h1 class="handle">bach<span class="glyph">.wtf</span></h1>
-    <div class="meta-row">
-      <span id="uptime">67 legend</span>
-      <span id="tiktok"><span>tiktok: @b4chadoo</span></span>
+    <section class="box hero">
+      <h1 class="handle">bach<span class="glyph">.wtf</span></h1>
+      <div class="meta-row">
+        <span id="uptime">67 legend</span>
+        <span id="tiktok"><span>tiktok: @b4chadoo</span></span>
       <span id="discord"><span>discord: bachadoo</span></span>
-    </div>
-    <footer>copyright @ <a href="https://b4ch.wtf/">b4ch.wtf</a></footer>
-  </div>\
+      </div>
+    </section>
+
+    <section class="box clock-box">
+      <div class="box-label">local time</div>
+      <div class="clock-face">
+        <div class="clock-time" id="clock-time">--<span class="colon">:</span>--<span class="sec">--</span><span class="ampm">--</span></div>
+        <div class="clock-date" id="clock-date">&nbsp;</div>
+        <div class="clock-bar"><span id="clock-bar"></span></div>
+        <div class="clock-meta"><span id="clock-tz"></span><span id="clock-day"></span></div>
+      </div>
+    </section>
+
+    <article class="box project p-short">
+      <div class="box-label">website</div>
+      <h2><a class="card-link" href="https://shortsmith.space" target="_blank" rel="noopener">shortsmith<span class="glyph">.space</span></a></h2>
+      <p>shortsmith is a free or paid tool to generate short-form 9:16 videos using clips and snippets from long-form youtube videos to post online.</p>
+      <p>currently working on integrating with more video platforms and an auto-generating & posting feature.</p>
+    </article>
+
+    <article class="box project p-wiki">
+      <div class="box-label">website</div>
+      <h2><a class="card-link" href="https://wikisprint.online" target="_blank" rel="noopener">wikisprint<span class="glyph">.online</span></a></h2>
+      <p>little daily game i thought of in class. wikipedia racing is a popular pastime at my school so i ended up creating a website for it with additional features like a party system and elo calculation, etc.</p>
+      <p>a random starting and destination article are generated each day and you can try and become the fastest to get there</p>
+    </article>
+
+    <article class="box project p-obs">
+      <div class="box-label">website</div>
+      <h2><a class="card-link" href="https://obscura-five-tawny.vercel.app/">obscura</a></h2>
+      <p>a multiplayer word-bomb game where rarer words score more.</p>
+      <div class="tags"><a class="tag tag-link" href="https://github.com/isolateam/obscura" target="_blank" rel="noopener noreferrer">source ↗</a></div>
+    </article>
+
+    <article class="box project p-ufs">
+      <div class="box-label">roblox</div>
+      <h2><a class="card-link" href="https://www.roblox.com/games/137419962843528/Unethical-Four-Square">unethical four square</a></h2>
+      <p>this is the first roblox four square game to my knowledge, power ups and custom squares, updated frequently</p>
+    </article>
+
+    <article class="box project p-bloxi">
+      <div class="box-label">roblox</div>
+      <h2><a class="card-link" href="https://www.roblox.com/games/112289656379031/BloxiClone">bloxiclone</a></h2>
+      <p>roblox gymnastics bar swinging game, inspired by the mobile game NoomiClone</p>
+    </article>
+
+    <section class="box badges">
+      <iframe src="//incr.easrng.net/badge?key=b4chwtf" style="background: url(//incr.easrng.net/bg.gif)" title="increment badge" width="88" height="31" frameborder="0"></iframe>
+      <img src="gifs/bestviewedcomp.gif" class="badge" alt="">
+      <img src="gifs/jonezua.gif" class="badge" alt="">
+      <img src="gifs/smile.gif" class="badge" alt="">
+      <img src="gifs/spotify.gif" class="badge" alt="">
+      <img src="gifs/spacelink.gif" class="badge" alt="">
+      <img src="gifs/vscbutton.gif" class="badge" alt="">
+      <img src="gifs/bestviewedopen.gif" class="badge" alt="">
+      <img src="gifs/winrar3.gif" class="badge" alt="">
+      <img src="gifs/umbreon.gif" class="badge" alt="">
+      <img src="gifs/bach.gif" class="badge" alt="">
+      <img src="gifs/notepad.gif" class="badge" alt="">
+    </section>
+
+  </div>
+  <footer>copyright @ <a href="https://b4ch.wtf/">b4ch.wtf</a></footer>
 </div>
 
-<div class="badge-rail badge-rail-right">
-  <img src="gifs/vscbutton.gif" class="badge">
-  <img src="gifs/bestviewedopen.gif" class="badge">
-  <img src="gifs/winrar3.gif" class="badge">
-  <img src="gifs/umbreon.gif" class="badge">
-  <img src="gifs/bach.gif" class="badge">
-  <img src="gifs/notepad.gif" class="badge">
-</div>
+<script>
+(function () {
+  const timeEl = document.getElementById('clock-time');
+  const dateEl = document.getElementById('clock-date');
+  const barEl = document.getElementById('clock-bar');
+  const tzEl = document.getElementById('clock-tz');
+  const dayEl = document.getElementById('clock-day');
+  const pad = n => String(n).padStart(2, '0');
+  const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+  const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+  try { tzEl.textContent = Intl.DateTimeFormat().resolvedOptions().timeZone.toLowerCase(); } catch (e) {}
 
+  function tick() {
+    const d = new Date();
+    let h = d.getHours();
+    const ampm = h >= 12 ? 'pm' : 'am';
+    h = h % 12 || 12;
+    timeEl.innerHTML = `${pad(h)}<span class="colon">:</span>${pad(d.getMinutes())}<span class="sec">${pad(d.getSeconds())}</span><span class="ampm">${ampm}</span>`;
+    dateEl.innerHTML = `<b>${days[d.getDay()]}</b> · ${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+    const start = new Date(d.getFullYear(), 0, 1);
+    const dayOfYear = Math.floor((d - start) / 86400000) + 1;
+    const pct = ((d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds()) / 86400) * 100;
+    barEl.style.width = pct.toFixed(2) + '%';
+    dayEl.textContent = `day ${dayOfYear} · ${Math.floor(pct)}% done`;
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+</script>
 <script src="visuals.js"></script>
 
 </body>
